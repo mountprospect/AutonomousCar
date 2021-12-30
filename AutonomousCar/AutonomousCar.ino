@@ -34,12 +34,17 @@ void setup() {
 }
 
 void loop() {
-  while(getDistance() >= 10) {
+  while (getDistance() >= 10) {
     drive(255);
     Serial.println(getDistance());
   }
   brake();
-
+  delay(1500);
+  while (getDistance() <= 20) {
+    reverse(255);
+    Serial.println(getDistance());
+  }
+  brake();
 }
 
 
@@ -62,8 +67,22 @@ void drive(int speed) {
   digitalWrite(driveDirTwo, HIGH);
 }
 
+void reverse(int speed) {
+  analogWrite(speedDrive, speed);
+  digitalWrite(driveDirOne, HIGH);
+  digitalWrite(driveDirTwo, LOW);
+}
+
 void brake() {
+  digitalWrite(driveDirOne, HIGH);
+  digitalWrite(driveDirTwo, LOW);
+  delay(100);
+  analogWrite(speedDrive, 0);
   digitalWrite(driveDirOne, LOW);
   digitalWrite(driveDirTwo, LOW);
+}
 
+void coast() { //Cut power to wheels and let car coast to a stop
+  digitalWrite(driveDirOne, LOW);
+  digitalWrite(driveDirTwo, LOW);
 }
