@@ -45,29 +45,40 @@ void setup() {
 }
 
 void loop() {
-  //  while (getDistance() >= 10) {
-  //    drive(255);
-  //    Serial.println(getDistance());
-  //  }
-  //  brake();
-  //  delay(1500);
-  //  while (getDistance() <= 20) {
-  //    reverse(255);
-  //    Serial.println(getDistance());
-  //  }
-  //  brake();
-  drive(355);
-  delay(2000);
-  steerRight(255);
-  delay(1000);
-  drive(355);
-  delay(2000);
+  while (getDistance() >= 10) {
+    drive(255);
+    Serial.println(getDistance());
+  }
+  brake();
+  delay(500);
+  while (getDistance() <= 30) {
+    reverse(255);
+    Serial.println(getDistance());
+  }
+  brake();
   steerLeft(255);
-  delay(1000);
-  drive(355);
-  delay(2000);
+  delay(500);
+  while (getDistance() >= 10) {
+    drive(255);
+    Serial.println(getDistance());
+  }
+  brake();
   steerNeutral();
-  delay(1000);
+  while(true) { }
+
+
+  //  drive(355);
+  //  delay(2000);
+  //  steerRight(255);
+  //  delay(1000);
+  //  drive(355);
+  //  delay(2000);
+  //  steerLeft(255);
+  //  delay(1000);
+  //  drive(355);
+  //  delay(2000);
+  //  steerNeutral();
+  //  delay(1000);
 }
 
 
