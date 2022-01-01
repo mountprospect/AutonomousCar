@@ -9,8 +9,13 @@ int trigPinFront = 2;
 int echoPinFront = 3;
 
 int speedDrive = 6; //This pin controls the speed of the drive motor (ENB pin on IC)
+int speedSteer = 9; //This pin controls the speed of the steering motor (ENA pin on IC)
+
 int driveDirOne = 4; //This pin controls the H-Bridge to change motor direction on the drive motor (IN3 on IC)
 int driveDirTwo = 5; //This pin controls the H-Bridge to change motor direction on the drive motor (IN4 on IC)
+int steerDirOne = 7; //This pin controls the H-Bridge to change motor direction on the steering motor (The Yellow wire) (IN1 on IC)
+int steerDirTwo = 8; //This pin controls the H-Bridge to change motor direction on the steering motor (The Gray wire) (IN2 on IC)
+
 
 void setup() {
 
@@ -18,12 +23,18 @@ void setup() {
   pinMode(echoPinFront, INPUT);
 
   pinMode(speedDrive, OUTPUT);
+  pinMode(speedSteer, OUTPUT);
   pinMode(driveDirOne, OUTPUT);
   pinMode(driveDirTwo, OUTPUT);
+  pinMode(steerDirOne, OUTPUT);
+  pinMode(steerDirTwo, OUTPUT);
 
   digitalWrite(speedDrive, LOW);
+  digitalWrite(speedSteer, LOW);
   digitalWrite(driveDirOne, LOW);
   digitalWrite(driveDirTwo, LOW);
+  digitalWrite(steerDirOne, LOW);
+  digitalWrite(steerDirTwo, LOW);
 
   Serial.begin(9600);
   Serial.println("Program Running...\n");
@@ -34,17 +45,29 @@ void setup() {
 }
 
 void loop() {
-  while (getDistance() >= 10) {
-    drive(255);
-    Serial.println(getDistance());
-  }
-  brake();
-  delay(1500);
-  while (getDistance() <= 20) {
-    reverse(255);
-    Serial.println(getDistance());
-  }
-  brake();
+  //  while (getDistance() >= 10) {
+  //    drive(255);
+  //    Serial.println(getDistance());
+  //  }
+  //  brake();
+  //  delay(1500);
+  //  while (getDistance() <= 20) {
+  //    reverse(255);
+  //    Serial.println(getDistance());
+  //  }
+  //  brake();
+  drive(355);
+  delay(2000);
+  steerRight(255);
+  delay(1000);
+  drive(355);
+  delay(2000);
+  steerLeft(255);
+  delay(1000);
+  drive(355);
+  delay(2000);
+  steerNeutral();
+  delay(1000);
 }
 
 
@@ -85,4 +108,21 @@ void brake() {
 void coast() { //Cut power to wheels and let car coast to a stop
   digitalWrite(driveDirOne, LOW);
   digitalWrite(driveDirTwo, LOW);
+}
+
+void steerRight(int speed) {
+  analogWrite(speedSteer, speed);
+  digitalWrite(steerDirOne, LOW);
+  digitalWrite(steerDirTwo, HIGH);
+}
+
+void steerLeft(int speed) {
+  analogWrite(speedSteer, speed);
+  digitalWrite(steerDirOne, HIGH);
+  digitalWrite(steerDirTwo, LOW);
+}
+
+void steerNeutral() {
+  digitalWrite(steerDirOne, LOW);
+  digitalWrite(steerDirTwo, LOW);
 }
